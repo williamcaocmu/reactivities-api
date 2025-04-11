@@ -7,8 +7,7 @@ import {
 
 const router = Router();
 
-router.get("/", getActivities);
-router.get("/:id", getActivityById);
-router.post("/:id", createActivity);
+router.route("/").get(getActivities);
+router.route("/:id").get(getActivityById).post(createActivity);
 
 export default router;
