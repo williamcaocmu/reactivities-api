@@ -29,3 +29,7 @@ export const createActivity = async (
 
   res.json(activity);
 };
+
+export const updateActivity = () => {};
+
+export const deleteActivity = () => {};
