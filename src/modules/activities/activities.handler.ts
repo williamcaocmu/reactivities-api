@@ -16,3 +16,16 @@ export const getActivityById = async (req: Request, res: Response) => {
 
   res.json(activity);
 };
+
+export const createActivity = async (
+  req: Request<unknown, unknown, { title: string }>,
+  res: Response
+) => {
+  const activity = await db.activity.create({
+    data: {
+      title: req.body.title,
+    },
+  });
+
+  res.json(activity);
+};
