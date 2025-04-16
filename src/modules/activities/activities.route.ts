@@ -9,11 +9,10 @@ import {
 
 const router = Router();
 
-router.route("/").get(getActivities);
+router.route("/").get(getActivities).post(createActivity);
 router
   .route("/:id")
   .get(getActivityById)
-  .post(createActivity)
   .patch(updateActivity)
   .delete(deleteActivity);
 

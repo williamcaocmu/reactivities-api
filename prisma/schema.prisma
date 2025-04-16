@@ -28,3 +28,15 @@ model Activity {
   date        DateTime?
   category    String?
 }
+
+model User {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  email       String  @unique
+  password    String
+  displayName String
+  // username    String  @unique
+  imageUrl    String? @default("https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611731.jpg?semt=ais_hybrid")
+}

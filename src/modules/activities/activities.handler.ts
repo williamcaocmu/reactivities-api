@@ -4,6 +4,10 @@ import db from "../../database/db";
 type CreateActivityBody = {
   title: string;
   description?: string;
+  category?: string;
+  city?: string;
+  venue?: string;
+  date?: string;
 };
 
 type UpdateActivityBody = {
@@ -31,13 +35,19 @@ export const createActivity = async (
   req: Request<unknown, unknown, CreateActivityBody>,
   res: Response
 ) => {
+  const { title, description, category, city, venue, date } = req.body;
   const activity = await db.activity.create({
     data: {
-      title: req.body.title,
+      title,
+      description,
+      category,
+      city,
+      venue,
+      date: date ? new Date(date) : undefined,
     },
   });
 
-  res.json(activity);
+  res.status(201).json(activity);
 };
 
 export const updateActivity = () => {};
