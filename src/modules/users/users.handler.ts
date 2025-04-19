@@ -76,3 +76,37 @@ export const signIn = async (
 
   res.status(StatusCodes.OK).json({ token });
 };
+
+export const getMe = async (req: Request, res: Response) => {
+  try {
+    if (!req.user || !req.user.id) {
+      res.status(StatusCodes.UNAUTHORIZED).json({
+        message: "User not authenticated",
+      });
+      return;
+    }
+
+    const user = await db.user.findUnique({
+      where: { id: req.user.id },
+      select: {
+        id: true,
+        email: true,
+        displayName: true,
+        imageUrl: true,
+      },
+    });
+
+    if (!user) {
+      res.status(StatusCodes.NOT_FOUND).json({
+        message: "User not found",
+      });
+      return;
+    }
+
+    res.status(StatusCodes.OK).json(user);
+  } catch (error) {
+    res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({
+      message: "Error retrieving user profile",
+    });
+  }
+};
