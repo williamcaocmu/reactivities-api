@@ -27,6 +27,12 @@ model Activity {
   longitude   Float?
   date        DateTime?
   category    String?
+
+  // Host information (direct reference)
+  hostId String? @default("")
+  host   User?   @relation("HostedActivities", fields: [hostId], references: [id])
+
+  attendees ActivityAttendee[]
 }
 
 model User {
@@ -39,4 +45,26 @@ model User {
   displayName String
   // username    String  @unique
   imageUrl    String? @default("https://img.freepik.com/free-psd/3d-render-avatar-character_23-2150611731.jpg?semt=ais_hybrid")
+
+  // Relationships
+  activities ActivityAttendee[]
+
+  hostedActivities Activity[] @relation("HostedActivities")
+}
+
+model ActivityAttendee {
+  // Composite primary key
+  userId     String
+  activityId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  // Relationships
+  user     User     @relation(fields: [userId], references: [id])
+  activity Activity @relation(fields: [activityId], references: [id])
+
+  // Additional fields
+  isHost Boolean @default(false)
+
+  @@id([userId, activityId])
 }
